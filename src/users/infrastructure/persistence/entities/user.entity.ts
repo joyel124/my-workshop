@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('users')
 export class UserEntity {
@@ -11,7 +11,7 @@ export class UserEntity {
   @Column()
   email: string;
 
-  hashPassword(){
+  hashPassword() {
     //this.password=crypto.createHmac('sha256', this.password).digest('hex');
   }
 
