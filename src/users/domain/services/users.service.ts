@@ -1,44 +1,38 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { UserDto } from './application/transform/user.dto';
-import { UserEntity } from './infrastructure/persistence/entities/user.entity';
+import { Inject, Injectable } from '@nestjs/common';
+import {
+  UsersRepository,
+  USERS_REPOSITORY,
+} from '../repositories/users.repository';
+import { User } from '../entities/user.model';
 //Capa de Servicio
 @Injectable()
 export class UsersService {
   constructor(
     //Capa de persistencia(Repository)
-    @InjectRepository(UserEntity)
-    private usersRepository: Repository<UserEntity>,
+    @Inject(USERS_REPOSITORY)
+    private usersRepository: UsersRepository,
   ) {}
 
-  async showAll() {
-    return await this.usersRepository.find();
+  async getAll() {
+    return await this.usersRepository.findAll();
   }
 
-  async create(data: UserDto) {
-    const user = this.usersRepository.create(data);
-    await this.usersRepository.save(data);
-    return user;
+  async create(user: User) {
+    return await this.usersRepository.create(user);
   }
 
-  async getByEmail(email: string): Promise<UserDto> {
-    return await this.usersRepository.findOne({
-      where: { email: email },
-    });
+  async getByEmail(email: string): Promise<User> {
+    return await this.usersRepository.findByEmail(email);
   }
 
   async getbyId(id: number) {
-    return await this.usersRepository.findOne({ where: { id: id } });
+    return await this.usersRepository.findById(id);
   }
 
-  async update(id: number, data: Partial<UserDto>) {
-    await this.usersRepository.update({ id }, data);
-    return await this.usersRepository.findOne({ id });
+  async update(id: number, user: User) {
+    return await this.usersRepository.update(id, user);
   }
-
   async delete(id: number) {
-    await this.usersRepository.delete({ id });
-    return { deleted: true };
+    return await this.usersRepository.delete(id);
   }
 }

@@ -1,9 +1,15 @@
+import { AutoMap } from '@automapper/classes';
+
 export class User {
-    id: number;
+  @AutoMap()
+  id: number;
 
-    name: string;
+  @AutoMap()
+  name: string;
 
-    email: string;
+  @AutoMap()
+  email: string;
 
-    password: string;
+  @AutoMap()
+  password: string;
 }
