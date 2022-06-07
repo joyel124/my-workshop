@@ -17,7 +17,7 @@ export class UserEntity {
   email: string;
 
   hashPassword() {
-    this.password = crypto.createHmac('sha256', this.password).digest('hex');
+    this.password = createHmac('sha256', this.password).digest('hex');
   }
 
   @AutoMap()
